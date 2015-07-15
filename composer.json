@@ -1,0 +1,21 @@
+{
+	"name": "eghojansu/web",
+	"description": "eghojansu/moe web implementation",
+	"homepage": "http://github.com/eghojansu/web",
+	"license": "MIT",
+	"require": {
+		"php": ">=5.3.6",
+		"eghojansu/moe": "dev-master",
+	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/eghojansu/web"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"app\\":""
+		}
+	}
+}
