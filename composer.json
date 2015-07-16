@@ -7,13 +7,6 @@
 		"php": ">=5.3.6",
 		"eghojansu/moe": "dev-master"
 	},
-	"minimum-stability": "dev",
-	"repositories": [
-		{
-			"type": "vcs",
-			"url": "https://github.com/eghojansu/web"
-		}
-	],
 	"autoload": {
 		"psr-4": {
 			"app\\":""
