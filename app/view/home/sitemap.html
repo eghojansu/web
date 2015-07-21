@@ -1,0 +1,9 @@
+<div class="blog-post">
+<h2 class="blog-post-title">Sitemap</h2>
+<hr>
+<ul>
+  <repeat group="{{ @menu }}" key="{{ @m }}" value="{{ @v }}">
+    <li><a href="{{ @m | url }}">{{ @v }}</a></li>
+  </repeat>
+</ul>
+</div>

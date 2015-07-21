@@ -1,0 +1,12 @@
+<div class="blog-post">
+  <h2 class="blog-post-title"><a href="{{ 'post', 'slug='.@post.slug | url }}">{{ @post.title | decode }}</a></h2>
+  <p class="blog-post-meta">{{ '{0,date,long}', strtotime(@post.date_created) | format }} on <a href="{{ 'category', 'slug='.@post.category_slug | url }}">{{ @post.category }}</a> by <a href="{{ 'profile', 'username='.@post.username | url }}">{{ @post.name }}</a> <span class="label label-info">{{ @post.hits }} hits</span></p>
+
+  {{ @post.content | decode }}
+</div><!-- /.blog-post -->
+
+<check if="{{ !@post }}">
+  <blockquote>
+    {{ @REALM }} was not exists!
+  </blockquote>
+</check>
