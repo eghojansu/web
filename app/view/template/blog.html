@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ app.desc }}">
+    <meta name="author" content="{{ app.author }}">
+    <link rel="icon" href="{{ 'favicon.ico' | url }}">
+    <title>{{ @pageTitle }}</title>
+    <link href="{{ 'assets/bootstrap-3.3.2/css/bootstrap.min.css' | url }}" rel="stylesheet">
+    <link href="{{ 'assets/font-awesome-4.3.0/css/font-awesome.min.css' | url }}" rel="stylesheet">
+    <link href="{{ 'assets/blog.css' | url }}" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="blog-masthead">
+      <div class="container">
+        <nav class="blog-nav">
+          <form class="form-inline form-search" action="{{ 'search', 'keyword= ' | url }}">
+            <div class="form-group">
+              <label class="sr-only" for="keyword">Keyword</label>
+              <input type="text" class="form-control" name="keyword" id="keyword" placeholder="Type a Keyword">
+            </div>
+            <button type="submit" class="btn btn-default">Search</button>
+          </form>
+          <repeat group="{{ @menu }}" key="{{ @m }}" value="{{ @v }}">
+            <a class="blog-nav-item {{ @ALIASES[@m]==@PATH?'active':'' }}" href="{{ @m | url }}">{{ @v }}</a>
+          </repeat>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="blog-header">
+        <h1 class="blog-title"><a href="{{ @BASEURL }}">{{ @app.name }}</a></h1>
+        <p class="lead blog-description">{{ @app.desc }}</p>
+      </div>
+
+      <div class="row">
+
+        <div class="col-sm-8 blog-main">
+          {{ @RESPONSE | decode }}
+        </div><!-- /.blog-main -->
+
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          <div class="sidebar-module sidebar-module-inset">
+            <h4>Fork me nyaaan...</h4>
+            <div class="github-logo">
+              <a href="{{ @app.source }}"><i class="fa fa-github"></i></a>
+              <a href="{{ @app.source }}"><i class="fa fa-github"></i></a>
+              <a href="{{ @app.source }}"><i class="fa fa-github"></i></a>
+            </div>
+          </div>
+          <div class="sidebar-module">
+            <h4>Populars</h4>
+            <ol class="list-unstyled">
+              <repeat group="{{ @populars }}" value="{{ @popular }}">
+                <li><a href="{{ 'post', 'slug='.@popular.slug | url }}">{{ @popular.title | decode }}</a></li>
+              </repeat>
+              <check if="{{ !@populars }}">
+                <li><em>No post available!</em></li>
+              </check>
+            </ol>
+          </div>
+          <div class="sidebar-module">
+            <h4>Archives</h4>
+            <ol class="list-unstyled" id="archive-list">
+              <repeat group="{{ @archives }}" key="{{ @year }}" value="{{ @months }}">
+                <li>
+                  <a href="#">{{ @year }}</a>
+                  <ul style="display: none">
+                  <repeat group="{{ @months }}" key="{{ @month }}" value="{{ @archive }}">
+                    <li>
+                      <a href="{{ 'archive', 'year='.@year.',month='.@month | url }}">{{ @month }}</a>
+                      <ul style="display: none">
+                        <repeat group="{{ @archive }}" value="{{ @url }}">
+                          <li><a href="{{ 'post', 'slug='.@url.slug | url }}">{{ @url.title | decode }}</a></li>
+                        </repeat>
+                      </ul>
+                    </li>
+                  </repeat>
+                  </ul>
+                </li>
+              </repeat>
+              <check if="{{ !@archives }}">
+                <li><em>No post available!</em></li>
+              </check>
+            </ol>
+          </div>
+          <div class="sidebar-module">
+            <h4>Igniter</h4>
+            <ol class="list-unstyled">
+              <repeat group="{{ @external }}" key="{{ @url }}" value="{{ @anchor }}">
+                <li><a href="{{ @url }}">{{ @anchor }}</a></li>
+              </repeat>
+            </ol>
+          </div>
+        </div><!-- /.blog-sidebar -->
+
+      </div><!-- /.row -->
+
+    </div><!-- /.container -->
+
+    <footer class="blog-footer">
+      <p><a href="{{ @app.source }}">eghojansu/web</a> &copy; {{ @app.year }} Page rendered in {{ @rendertime }} seconds</p>
+      <p>
+        <a href="#top">Back to top</a>
+      </p>
+    </footer>
+
+    <script src="{{ 'assets/jQuery-2.1.3.min.js' | url }}"></script>
+    <script src="{{ 'assets/bootstrap-3.3.2/js/bootstrap.min.js' | url }}"></script>
+    <script>
+    $(document).ready(function(){
+      $('a[href=#top]').on('click', function(event){
+        event.preventDefault();
+        $('html,body').animate({
+          scrollTop:$('.blog-header').offset().top
+        }, 'slow');
+        $(':input:visible:enabled:first').focus();
+      });
+      $('#archive-list').on('click', 'a', function(event){
+        if ($(this).next().is('ul')) {
+          event.preventDefault();
+          var s = $(this).next();
+          if (s.is(':visible')) 
+            s.slideUp();
+          else
+            s.slideDown();
+        }
+      });
+      $('form.form-search').on('submit', function(event){
+        event.preventDefault();
+        window.location.replace($(this).prop('action')+$(this).find('input[type=text]').val());
+      });
+    });
+    </script>
+
+  </body>
+</html>

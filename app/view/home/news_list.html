@@ -1,0 +1,39 @@
+{{ isset(@ptitle)?'<h1 class="page-header">'.@ptitle.'</h1>':'' }}
+<repeat group="{{ @posts }}" value="{{ @post }}">
+  <div class="blog-post">
+    <h2 class="blog-post-title"><a href="{{ 'post', 'slug='.@post.slug | url }}">{{ @post.title | decode }}</a></h2>
+    <p class="blog-post-meta">{{ '{0,date,long}', strtotime(@post.date_created) | format }} on <a href="{{ 'category', 'slug='.@post.category_slug | url }}">{{ @post.category }}</a> by <a href="{{ 'profile', 'username='.@post.username | url }}">{{ @post.name }}</a> <span class="label label-info">{{ @post.hits }} hits</span></p>
+
+    {{ @post.content | decode }}
+  </div><!-- /.blog-post -->
+</repeat>
+
+<check if="{{ @posts }}">
+<true>
+  <nav>
+    <ul class="pager">
+      <check if="{{ @pages.prev }}">
+        <true>
+          <li><a href="{{ str_replace('{page}', @pages.prev, @pages_url) }}">Previous</a></li>
+        </true>
+        <false>
+          <li class="disabled"><a href="#">Previous</a></li>
+        </false>
+      </check>
+      <check if="{{ @pages.next }}">
+        <true>
+          <li><a href="{{ str_replace('{page}', @pages.next, @pages_url) }}">Next</a></li>
+        </true>
+        <false>
+          <li class="disabled"><a href="#">Next</a></li>
+        </false>
+      </check>
+    </ul>
+  </nav>
+</true>
+<false>
+  <blockquote>
+    No post available!
+  </blockquote>
+</false>
+</check>
